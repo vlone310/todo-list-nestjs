@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/todos.module';
-import { Todo } from './users/todo.entity';
+import { UsersModule } from './todos/todos.module';
+import { Todo } from './todos/todo.entity';
 
 @Module({
   imports: [
