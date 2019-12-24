@@ -18,17 +18,24 @@ export class TodosController {
   };
 
   @Post()
-  create(@Body() todo: Todo) {
-    return this.service.createTodo(todo);
+  async create(@Body() todo: Todo) {
+    const res = await this.service.createTodo(todo);
+    return this.service.getOneTodo(res.raw.insertId);
   };
 
   @Put(':id')
-  update(@Param() params: any, @Body() todo: Todo) {
-    return this.service.updateTodo(params.id, todo);
+  async update(@Param() params: any, @Body() todo: Todo) {
+    await this.service.updateTodo(params.id, todo);
+    return this.service.getOneTodo(params.id);
   };
 
   @Delete(':id')
   delete(@Param() params) {
     return this.service.deleteTodo(params.id);
   };
+
+  @Delete()
+  deleteAllTodos() {
+    this.service.deleteAll();
+  }
 }

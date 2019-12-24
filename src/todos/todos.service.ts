@@ -21,14 +21,18 @@ export class TodosService {
   }
 
   async createTodo(todo: Todo) {
-    this.todosRepository.save(todo);
+    return this.todosRepository.insert(todo);
   };
 
   async updateTodo(id: number, todo: Todo) {
-    this.todosRepository.update(id, todo);
+    return this.todosRepository.update(id, todo);
   };
 
   async deleteTodo(todo: Todo) {
     this.todosRepository.delete(todo);
   };
+
+  async deleteAll() {
+    this.todosRepository.clear();
+  }
 }
