@@ -7,11 +7,16 @@ import { Repository } from 'typeorm';
 export class UsersService {
   constructor(@InjectRepository(User) private usersRepository: Repository<User>) {}
 
-  async create(user: User) {
-    return this.usersRepository.insert(user);
-  }
-
   async findOne(username: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ username: username });;
+  }
+
+  async create(user: User) {
+    const isExist = this.findOne(user.username);
+    if (isExist) {
+      return null;
+    }
+
+    return this.usersRepository.insert(user);
   }
 }

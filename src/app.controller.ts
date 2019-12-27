@@ -6,7 +6,10 @@ import { User } from './users/users.entity';
 
 @Controller()
 export class AppController {
-  constructor(private readonly authService: AuthService, private readonly usersService: UsersService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService
+  ) {}
 
   @UseGuards(AuthGuard('local'))
   @Post('auth/login')
