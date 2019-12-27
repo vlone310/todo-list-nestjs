@@ -9,4 +9,4 @@ import { Todo } from './todo.entity';
   providers: [TodosService],
   controllers: [TodosController]
 })
-export class UsersModule {}
+export class TodosModule {}
