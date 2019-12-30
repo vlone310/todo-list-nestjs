@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,9 +13,9 @@ export class UsersService {
   }
 
   async create(user: User) {
-    this.findOne(user.username).then((isExist) => {
+    const isExist = await this.findOne(user.username);
       if (isExist) {
-        return null;
+        throw new UnauthorizedException('User already exist');
       }
       const salt = genSaltSync(10);
       const hashPassword = hashSync(user.password, salt);
@@ -24,6 +24,5 @@ export class UsersService {
         password: hashPassword,
       }
       return this.usersRepository.insert(newUser);
-    })
   }
 }
