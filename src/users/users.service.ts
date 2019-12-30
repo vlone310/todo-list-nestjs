@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { genSaltSync, hashSync } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -12,11 +13,17 @@ export class UsersService {
   }
 
   async create(user: User) {
-    const isExist = this.findOne(user.username);
-    if (isExist) {
-      return null;
-    }
-
-    return this.usersRepository.insert(user);
+    this.findOne(user.username).then((isExist) => {
+      if (isExist) {
+        return null;
+      }
+      const salt = genSaltSync(10);
+      const hashPassword = hashSync(user.password, salt);
+      const newUser = {
+        username: user.username,
+        password: hashPassword,
+      }
+      return this.usersRepository.insert(newUser);
+    })
   }
 }
