@@ -8,10 +8,6 @@ export class TodosService {
 
   constructor(@InjectRepository(Todo) private todosRepository: Repository<Todo>) {}
 
-  // async getTodos(todo: Todo): Promise<Todo[]> {
-  //   return await this.todosRepository.find();
-  // };
-
   async getTodos(): Promise<Todo[]> {
     return await this.todosRepository.find();
   };
